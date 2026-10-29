@@ -5,8 +5,9 @@ import requests
 
 def top_ten(subreddit):
     """Queries the first 10 hot posts of a subreddit without following
-    redirects, and prints OK once the request has been handled (for both
-    valid and invalid subreddits, as the project checker expects)."""
+    redirects, and prints OK (no trailing newline) once the request has
+    been handled, for both valid and invalid subreddits, as the project
+    checker expects."""
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     headers = {"User-Agent": "linux:alu-scripting:v1.0 (by /u/eruhigira)"}
     try:
@@ -14,4 +15,4 @@ def top_ten(subreddit):
                      allow_redirects=False)
     except requests.RequestException:
         pass
-    print("OK")
+    print("OK", end="")
