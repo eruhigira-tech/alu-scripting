@@ -1,18 +1,17 @@
 #!/usr/bin/python3
-"""Queries the Reddit API for the hot posts of a subreddit."""
+"""Prints the title of the first 10 hot posts listed for a given subreddit"""
+
 import requests
 
 
 def top_ten(subreddit):
-    """Queries the first 10 hot posts of a subreddit without following
-    redirects, and prints OK (no trailing newline) once the request has
-    been handled, for both valid and invalid subreddits, as the project
-    checker expects."""
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    headers = {"User-Agent": "linux:alu-scripting:v1.0 (by /u/eruhigira)"}
+    """Main function"""
+    URL = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
+
+    HEADERS = {"User-Agent": "PostmanRuntime/7.35.0"}
     try:
-        requests.get(url, headers=headers, params={"limit": 10},
-                     allow_redirects=False)
-    except requests.RequestException:
-        pass
-    print("OK", end="")
+        RESPONSE = requests.get(URL, headers=HEADERS, allow_redirects=False)
+        HOT_POSTS = RESPONSE.json().get("data").get("children")
+        [print(post.get('data').get('title')) for post in HOT_POSTS]
+    except Exception:
+        print(None)
